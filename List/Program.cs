@@ -3,30 +3,26 @@
     internal class Program
     {
         static void Main(string[] args)
-        {
-            MyList<int> list = new MyList<int>() {1,2,3,4,5};
+        {           
+            MyList<int> list = new MyList<int>() { };
 
-            Console.WriteLine(list[4]);
-            foreach (var item in list)
+            var task = Task.Run(() =>
             {
-                Console.WriteLine(item);
-            }
+                for (int i = 0; i < 10000000; i++)
+                {
+                    list.Add(i);
+                }
+            });
 
-            list.Add(6);
-            Console.WriteLine(list.Remove(2));
-            list.RemoveAt(1);
-            Console.WriteLine(list.Contains(7));
 
-            foreach (var item in list)
+            for (int i = 0; i < 10000000; i++)
             {
-                Console.WriteLine(item);
+                list.Add(i);
             }
+       
+            task.Wait();
 
-            list.Clear();
-            foreach (var item in list)
-            {
-                Console.WriteLine(item);
-            }
+            Console.WriteLine(list.Count);          
         }
     }
 }
